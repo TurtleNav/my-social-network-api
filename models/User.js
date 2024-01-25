@@ -6,7 +6,7 @@ const userSchema = new Schema({
 	username: {type: String, required: true, unique: true},
 
 	// TODO: Implement an email validator
-	email: {type: String, required: true, unique: true)
+	email: {type: String, required: true, unique: true}
 
 	// TODO: Implement thoughts array
 	// TODO: Implement friends array that references other users
