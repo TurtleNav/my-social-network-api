@@ -5,8 +5,8 @@ const reactionSchema = require('./Reaction');
 const thoughtSchema = new Schema({
 	thoughtText: {type: String, required: true, minLength: 1, maxLength: 280},
 
-	// implement a getter method to format the timestamp on query
-	createdAt: {type: Date, default: Date.now},
+	// Return ISO-8601 time string
+	createdAt: {type: Date, default: Date.now, get: (date) => date.toISOString()},
 
 	username: {type: String, required: true},
 
