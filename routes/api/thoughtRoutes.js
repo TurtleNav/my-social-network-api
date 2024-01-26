@@ -1,5 +1,7 @@
 const router = require('express').Router();
 
+/*
+get thought stuff
 const {
   getUsers,
   getSingleUser,
@@ -8,15 +10,13 @@ const {
   addThought,
   removeThought
 } = require('../../controllers/userController');
+*/
 
-// Get all users api/users
-router.route('/').get(getUsers);
+// /api/users
+router.route('/').get(async (req, res) => res.status(200).json({message: "what's up girlie"}));
 
-// Get user by specific object ID - GET at /api/users/:id
-router.route('/:id').get(getSingleUser);
-
-// create user - POST at /api/users
-router.route('/').post(createUser);
+// /api/students/:studentId
+// router.route('/:studentId').get(getSingleStudent).delete(deleteStudent);
 
 // /api/students/:studentId/assignments
 // router.route('/:studentId/assignments').post(addAssignment);

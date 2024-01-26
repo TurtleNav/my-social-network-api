@@ -13,11 +13,11 @@ async function getUsers(req, res) {
 
 async function getSingleUser(req, res) {
   try {
-    const user = await User.findOne({_id: req.params.studentId});
+    const user = await User.findOne({_id: req.params.id});
       //.select('-__v')
       //.lean();
     if (!user) {
-      res.status(404).json({message: 'There aren\'t any users with that id'});
+      return res.status(404).json({message: 'There aren\'t any users with that id'});
     }
     res.status(200).json({user});
   } catch(err) {
