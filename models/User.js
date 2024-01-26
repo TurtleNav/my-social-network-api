@@ -6,12 +6,16 @@ const userSchema = new Schema({
 	username: {type: String, required: true, unique: true},
 
 	// TODO: Implement an email validator
-	email: {type: String, required: true, unique: true}
+	email: {type: String, required: true, unique: true},
 
 	// TODO: Implement thoughts array
+
+	thoughts: [{type: Schema.Types.ObjectId, ref: 'Thought'}],
+
 	// TODO: Implement friends array that references other users
+	friends: [{type: Schema.Types.ObjectId, ref: 'User'}],
 });
 
-const User = model('user', userSchema);
+const User = model('User', userSchema);
 
 module.exports = User;
