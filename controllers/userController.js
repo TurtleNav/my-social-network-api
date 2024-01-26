@@ -87,19 +87,19 @@ async function getThoughts(req, res) {
 async function addThought(req, res) {
   try {
     console.log('Adding a thought to the user');
-    console.log(req.body);
     const user = await User.findOneAndUpdate(
-      {_id: req.params.userId},
+      {_id: req.params.id},
       { $addToSet: {thoughts: req.body}},
       {runValidators: true, new: true}
     );
 
     if (!user) {
-      res.status(404).json({message: ''})
+      return res.status(404).json({message: ''})
     }
+    return res.status(200).json({message: "Added thought to user"});
 
   } catch(err) {
-    res.status(500).json(err);
+    return res.status(500).json(err);
   }
 }
 
