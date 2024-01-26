@@ -68,6 +68,22 @@ async function deleteUser(req, res) {
   }
 }
 
+// can get thoughts by user.thoughts OR thoughts.find({username: X})
+async function getThoughts(req, res) {
+  try {
+    console.log("Getting some user thoughts");
+    const user = await User.findOne(
+      {_id: req.params.id},
+    );
+    if (!user) {
+      res.status(404).json({message: "User with that id doesn't exist"});
+    }
+    res.status(200).json(user.thoughts);
+  } catch(err) {
+    res.status(500).json(err);
+  }
+};
+
 async function addThought(req, res) {
   try {
     console.log('Adding a thought to the user');
@@ -114,6 +130,7 @@ module.exports = {
   getSingleUser,
   createUser,
   deleteUser,
+  getThoughts,
   addThought,
   removeThought
 };
