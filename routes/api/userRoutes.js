@@ -7,7 +7,9 @@ const {
   deleteUser,
   getThoughts,
   addThought,
-  removeThought
+  removeThought,
+  getFriends,
+  addFriend
 } = require('../../controllers/userController');
 
 // Get all users api/users
@@ -28,6 +30,12 @@ router.route('/:id/thoughts').get(getThoughts);
 
 // Post a thought
 router.route("/:id/thoughts").post(addThought);
+
+// get friends
+router.route('/:id/friends').get(getFriends);
+
+// Add a friend
+router.route('/:id/friends').post(addFriend);
 
 // /api/students/:studentId/assignments/:assignmentId
 // router.route('/:studentId/assignments/:assignmentId').delete(removeAssignment);

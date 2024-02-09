@@ -1,19 +1,14 @@
 const router = require('express').Router();
 
-/*
-get thought stuff
+
+// get thought stuff
 const {
-  getUsers,
-  getSingleUser,
-  createUser,
-  deleteUser,
-  addThought,
-  removeThought
-} = require('../../controllers/userController');
-*/
+  getAllThoughts
+} = require('../../controllers/thoughtController');
+
 
 // /api/users
-router.route('/').get(async (req, res) => res.status(200).json({message: "what's up girlie"}));
+router.route('/').get(getAllThoughts);
 
 // /api/students/:studentId
 // router.route('/:studentId').get(getSingleStudent).delete(deleteStudent);

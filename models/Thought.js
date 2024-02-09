@@ -1,4 +1,4 @@
-const { Schema, model } = require('mongoose');
+const { Schema, model, Types } = require('mongoose');
 
 const reactionSchema = require('./Reaction');
 
@@ -16,7 +16,7 @@ const thoughtSchema = new Schema({
 	// Necessary to specify to Mongoose that we want virtuals to be supported
 	toJSON: {
 		virtuals: true
-	}
+	},
 });
 
 thoughtSchema.virtual('reactionCount').get(

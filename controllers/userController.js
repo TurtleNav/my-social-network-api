@@ -1,7 +1,9 @@
 const { ObjectId } = require('mongoose').Types;
 const { User, Thought } = require('../models');
 
-
+// GET /api/users
+//
+// Returns all users present in the DB 
 async function getUsers(req, res) {
   try {
     const users = await User.find();
@@ -11,6 +13,9 @@ async function getUsers(req, res) {
   }
 }
 
+// GET /api/users/:id
+//
+// Returns a specific user by their ID
 async function getSingleUser(req, res) {
   try {
     const user = await User.findOne({_id: req.params.id});
@@ -26,6 +31,9 @@ async function getSingleUser(req, res) {
   }
 }
 
+// POST /api/users
+//
+// Create a unique user and add them to the DB
 async function createUser(req, res) {
   try {
     const user = await User.create(req.body);
@@ -36,6 +44,9 @@ async function createUser(req, res) {
   }
 }
 
+// DELETE /api/users/:id
+//
+// Delete a user by their ID
 async function deleteUser(req, res) {
   try {
     const user = await User.findOneAndRemove({_id: req.params.userId});
@@ -68,7 +79,9 @@ async function deleteUser(req, res) {
   }
 }
 
-// can get thoughts by user.thoughts OR thoughts.find({username: X})
+// GET /api/users/:id/thoughts
+//
+// Get a particular users' thoughts
 async function getThoughts(req, res) {
   try {
     console.log("Getting some user thoughts");
@@ -84,12 +97,17 @@ async function getThoughts(req, res) {
   }
 };
 
+// POST
 async function addThought(req, res) {
   try {
     console.log('Adding a thought to the user');
+    console.log(req.body);
+
+    const thought = await Thought.create(req.body);
+
     const user = await User.findOneAndUpdate(
       {_id: req.params.id},
-      { $addToSet: {thoughts: req.body}},
+      { $addToSet: {thoughts: [thought]}},
       {runValidators: true, new: true}
     );
 
@@ -125,6 +143,40 @@ async function removeThought(req, res) {
   */
 }
 
+async function getFriends(req, res) {
+  try {
+    const user = await User.findOne({_id: req.params.id});
+    res.status(200).json(user.friends);
+  } catch(err) {
+    res.status(500).json(err);
+  }
+}
+
+async function addFriend(req, res) {
+  try {
+    console.log('Adding a friend to the user');
+    console.log(req.body);
+
+    const friend = await User.findOne({username: req.body.username});
+    if (!friend) {
+      return res.status(404).json({message: "No user with that username exists"});
+    }
+    const user = await User.findOneAndUpdate(
+      {_id: req.params.id},
+      { $addToSet: {friends: friend}},
+      {runValidators: true, new: true}
+    );
+
+    if (!user) {
+      return res.status(404).json({message: ''})
+    }
+    return res.status(200).json({message: "Added friend to user"});
+
+  } catch(err) {
+    return res.status(500).json(err);
+  }
+}
+
 module.exports = {
   getUsers,
   getSingleUser,
@@ -132,5 +184,7 @@ module.exports = {
   deleteUser,
   getThoughts,
   addThought,
-  removeThought
+  removeThought,
+  getFriends,
+  addFriend
 };
