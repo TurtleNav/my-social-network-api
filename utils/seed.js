@@ -1,6 +1,6 @@
 const connection = require('../config/connection');
 const {Thought, User} = require('../models');
-const {getRandomUsers, thoughts} = require('./data');
+const {getRandomUsers, getRandomThought} = require('./data');
 
 connection.on('error', (err) => err);
 
@@ -23,23 +23,18 @@ connection.once('open', async () => {
   // Add users to the collection and await the results
   const userData = await User.insertMany(users);
 
-  const thoughts = await Thought.insertMany()
-  
-
-  /*
-  await Thought.create({
-
+  const thoughts = [];
+  users.forEach((user) => {
+    thoughts.push({
+      thoughtText: getRandomThought(),
+      username: user.username,
+    })
   })
-
-  // Add courses to the collection and await the results
-  await Course.insertOne({
-    courseName: 'UCLA',
-    inPerson: false,
-    students: [...studentData.map(({_id}) => _id)],
-  });
-*/
+  const thoughtData = await Thought.insertMany(thoughts);
+  
   // output seed data
   console.table(users);
+  console.table(thoughts);
   console.info('Seeding complete! 🌱');
   process.exit(0);
 });

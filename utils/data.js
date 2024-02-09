@@ -80,7 +80,7 @@ const names = [
 ];
 
 // Plant related thoughts. Yeah I like gardening
-const thoughts = [
+const thoughtStrings = [
   "plants are cool",
   "I like plants",
   "i love plants",
@@ -103,14 +103,26 @@ const thoughts = [
   "I never miss a growing season"
 ]
 
+const reactions = [
+  "loved it",
+  "cool",
+  "meh",
+  "valid point",
+  "I disagree",
+  "true",
+  "thanks for that",
+  "boo"
+]
+
 // Get a random item given an array
 const getRandomArrItem = (arr) => arr[Math.floor(Math.random() * arr.length)];
 
 // make a email from a name in the format name@email.com
 const getEmail = (name) => `${name}@email.com`;
 
-const getRandomName = () => names[Math.floor(Math.random() * names.length)];
-const getRandomThought = () => getRandomArrItem(thoughts);
+const getRandomName = () => getRandomArrItem(names);
+const getRandomThought = () => getRandomArrItem(thoughtStrings);
+const getRandomReaction = () => getRandomArrItem(reactions);
 
 const getRandomUsers = (n) => {
   let randNames = new Set();
@@ -118,24 +130,6 @@ const getRandomUsers = (n) => {
     // grab a user and drop them in the set
     randNames.add(getRandomName());
   } while (randNames.size < n);
-
-  /*
-  randNames = Array.from(randNames);
-  getRandomFriends = (name) => {
-    const friends = [];
-    for (const friendName of randNames) {
-      // ensure someone isn't friends with themselves
-      if (name === friendName) {
-        continue;
-      }
-      // Do a coin toss on whether we add this friend
-      if (Math.random() < 0.5) {
-        friends.push(friendName);
-      }
-    }
-    return friends;
-  }
-  */
 
   const users = [];
   randNames.forEach((name) => {
@@ -151,4 +145,4 @@ const getRandomUsers = (n) => {
 
 
 // Export the functions for use in seed.js
-module.exports = { getRandomUsers, thoughts };
+module.exports = { getRandomUsers, getRandomThought, getRandomReaction};
