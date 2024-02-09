@@ -79,31 +79,76 @@ const names = [
   'Parker',
 ];
 
+// Plant related thoughts. Yeah I like gardening
+const thoughts = [
+  "plants are cool",
+  "I like plants",
+  "i love plants",
+  "my favorite tree has to be witch hazel",
+  "Don't bother with buying succulents",
+  "Overwatering plants can lead to root rot!",
+  "Please don't plant Lilyturf in your garden",
+  "You should only plant natives in your garden",
+  "Nothing tastes better than wild raspberries in the dead of summer",
+  "Monkshood is one of the most poisonous plants known",
+  "Planting Common Milkweed can attract Monarch Butterflies to your yard",
+  "Squirrels keep taking my tomatoes...",
+  "Try not to use insecticides in your garden!",
+  "I have praying mantises all over my garden and I think they like me",
+  "Monstera's are hands-down the most beautiful house plant one can own",
+  "You have to be the Grim Reaper to kill a Snake Plant",
+  "plants are wonderful",
+  "You can reduce your waste significantly and make great soil from composting",
+  "They say being amongst plants puts us in a better mood",
+  "I never miss a growing season"
+]
+
 // Get a random item given an array
 const getRandomArrItem = (arr) => arr[Math.floor(Math.random() * arr.length)];
 
 // make a email from a name in the format name@email.com
 const getEmail = (name) => `${name}@email.com`;
 
+const getRandomName = () => names[Math.floor(Math.random() * names.length)];
+const getRandomThought = () => getRandomArrItem(thoughts);
+
 const getRandomUsers = (n) => {
-  let users = [];
-  const maxUsers = Math.min(n, names.length);
-  for (let i=0; i<maxUsers; i++) {
-    // pop out a random name then push it to our users
-    users.push({name: names.splice(getRandomArrItem(names), 1)});
-  }
+  let randNames = new Set();
+  do {
+    // grab a user and drop them in the set
+    randNames.add(getRandomName());
+  } while (randNames.size < n);
 
-  for (const user of users) {
-    userFriends = new Set();
-    while (userFriends.size < 3) {
-      userFriends.add(users[getRandomArrItem()].name);
+  /*
+  randNames = Array.from(randNames);
+  getRandomFriends = (name) => {
+    const friends = [];
+    for (const friendName of randNames) {
+      // ensure someone isn't friends with themselves
+      if (name === friendName) {
+        continue;
+      }
+      // Do a coin toss on whether we add this friend
+      if (Math.random() < 0.5) {
+        friends.push(friendName);
+      }
     }
-    user.friends = Array.from(userFriends);
-    user.email = getEmail(user.name);
+    return friends;
   }
+  */
 
+  const users = [];
+  randNames.forEach((name) => {
+    users.push({
+      username: name,
+      email: getEmail(name),
+    })
+  })
+
+  // Now we have a guaranteed unique collection of user that is exactly n entries
   return users;
 }
 
+
 // Export the functions for use in seed.js
-module.exports = { getRandomUsers };
+module.exports = { getRandomUsers, thoughts };
