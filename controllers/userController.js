@@ -182,7 +182,6 @@ module.exports = {
   getSingleUser,
   createUser,
   deleteUser,
-  getThoughts,
   addThought,
   removeThought,
   getFriends,

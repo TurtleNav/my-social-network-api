@@ -2,10 +2,9 @@ const router = require('express').Router();
 
 const {
   getUsers,
-  getSingleUser,
+  getUser,
   createUser,
   deleteUser,
-  getThoughts,
   addThought,
   removeThought,
   getFriends,
@@ -16,7 +15,7 @@ const {
 router.route('/').get(getUsers);
 
 // Get user by specific object ID - GET at /api/users/:id
-router.route('/:id').get(getSingleUser);
+router.route('/:id').get(getUser);
 
 // create user - POST at /api/users
 router.route('/').post(createUser);
@@ -25,7 +24,7 @@ router.route('/').post(createUser);
 router.route('/:id').delete(deleteUser);
 
 // Get a users' thoughts
-router.route('/:id/thoughts').get(getThoughts);
+//router.route('/:id/thoughts').get(getThoughts);
 //router.route('/:studentId/assignments').post(addAssignment);
 
 // Post a thought

@@ -6,9 +6,10 @@ const { User, Thought } = require('../models');
 // GET /api/thoughts
 //
 // Get every thought from every user
-async function getAllThoughts(req, res) {
+async function getThoughts(req, res) {
+  console.log('hiiii');
   try {
-    const thoughts = await Thought.find();
+    const thoughts = await Thought.find({});
     res.status(200).json(thoughts);
   } catch(err) {
     res.status(500).json(err);
@@ -82,3 +83,5 @@ async function createReaction(req, res) {
 async function deleteReaction(req, res) {
   //
 }
+
+module.exports = {getThoughts};

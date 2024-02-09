@@ -3,12 +3,13 @@ const router = require('express').Router();
 
 // get thought stuff
 const {
-  getAllThoughts
+  getThoughts
 } = require('../../controllers/thoughtController');
 
+console.log('getallthought---> ', getThoughts);
 
-// /api/users
-router.route('/').get(getAllThoughts);
+// /api/thoughts
+router.route('/').get(getThoughts);
 
 // /api/students/:studentId
 // router.route('/:studentId').get(getSingleStudent).delete(deleteStudent);

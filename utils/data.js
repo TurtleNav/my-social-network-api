@@ -1,3 +1,8 @@
+/*
+  Seeds the social network
+
+  Using a random selection of names, we can
+*/
 const names = [
   'Aaran',
   'Aaren',
@@ -74,45 +79,31 @@ const names = [
   'Parker',
 ];
 
-const appDescriptions = [
-  'Decision Tracker',
-  'Find My Phone',
-  'Learn Piano',
-  'Starbase Defender',
-  'Tower Defense',
-  'Monopoly Money Manager',
-  'Movie trailers',
-  'Hello world',
-  'Stupid Social Media App',
-  'Notes',
-  'Messages',
-  'Email',
-  'Compass',
-  'Firefox',
-  'Running app',
-  'Cooking app',
-  'Poker',
-  'Deliveries',
-];
-
 // Get a random item given an array
 const getRandomArrItem = (arr) => arr[Math.floor(Math.random() * arr.length)];
 
-// Gets a random full name
-const getRandomName = () =>
-  `${getRandomArrItem(names)} ${getRandomArrItem(names)}`;
+// make a email from a name in the format name@email.com
+const getEmail = (name) => `${name}@email.com`;
 
-// Function to generate random assignments that we can add to student object.
-const getRandomAssignments = (int) => {
-  const results = [];
-  for (let i = 0; i < int; i++) {
-    results.push({
-      assignmentName: getRandomArrItem(appDescriptions),
-      score: Math.floor(Math.random() * (99 - 70 + 1) + 70),
-    });
+const getRandomUsers = (n) => {
+  let users = [];
+  const maxUsers = Math.min(n, names.length);
+  for (let i=0; i<maxUsers; i++) {
+    // pop out a random name then push it to our users
+    users.push({name: names.splice(getRandomArrItem(names), 1)});
   }
-  return results;
-};
+
+  for (const user of users) {
+    userFriends = new Set();
+    while (userFriends.size < 3) {
+      userFriends.add(users[getRandomArrItem()].name);
+    }
+    user.friends = Array.from(userFriends);
+    user.email = getEmail(user.name);
+  }
+
+  return users;
+}
 
 // Export the functions for use in seed.js
-module.exports = { getRandomName, getRandomAssignments };
+module.exports = { getRandomUsers };
