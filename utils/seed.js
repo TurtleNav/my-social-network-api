@@ -16,7 +16,9 @@ connection.once('open', async () => {
   const thoughtCheck = await connection.db.listCollections({ name: 'thoughts' }).toArray();
   if (thoughtCheck.length) {
     await connection.dropCollection('thoughts');
+    console.log("Deleted an existing thought collection");
   }
+  
   // 20 users should be enough
   const users = getRandomUsers(20);
 
@@ -24,11 +26,14 @@ connection.once('open', async () => {
   const userData = await User.insertMany(users);
 
   const thoughts = [];
-  users.forEach((user) => {
+  userData.forEach(async (user, index) => {
     thoughts.push({
       thoughtText: getRandomThought(),
       username: user.username,
-    })
+    });
+
+    // Give the user a friend who is nothing more than the next user in the array
+    await User.findByIdAndUpdate(user._id, {friends: userData[(index+1)%20]})
   })
   const thoughtData = await Thought.insertMany(thoughts);
   

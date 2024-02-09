@@ -16,7 +16,7 @@ async function getUsers(req, res) {
 // GET /api/users/:id
 //
 // Returns a specific user by their ID
-async function getSingleUser(req, res) {
+async function getUser(req, res) {
   try {
     const user = await User.findOne({_id: req.params.id});
       //.select('-__v')
@@ -179,7 +179,7 @@ async function addFriend(req, res) {
 
 module.exports = {
   getUsers,
-  getSingleUser,
+  getUser,
   createUser,
   deleteUser,
   addThought,
