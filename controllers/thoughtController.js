@@ -7,9 +7,8 @@ const { User, Thought } = require('../models');
 //
 // Get every thought from every user
 async function getThoughts(req, res) {
-  console.log('hiiii');
   try {
-    const thoughts = await Thought.find({});
+    const thoughts = await Thought.find();
     res.status(200).json(thoughts);
   } catch(err) {
     res.status(500).json(err);
@@ -84,4 +83,9 @@ async function deleteReaction(req, res) {
   //
 }
 
-module.exports = {getThoughts};
+module.exports = {
+  getThoughts,
+  getThoughtById,
+  postThought,
+  updateThought
+};

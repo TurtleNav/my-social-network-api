@@ -3,21 +3,23 @@ const router = require('express').Router();
 
 // get thought stuff
 const {
-  getThoughts
+  getThoughts,
+  getThoughtById,
+  postThought
 } = require('../../controllers/thoughtController');
 
-console.log('getallthought---> ', getThoughts);
+// route - /api/thoughts
+// GET   - Get all thoughts in the DB
+// POST  - Create a new thought
+router.route('/').get(getThoughts).post(postThought);
 
-// /api/thoughts
-router.route('/').get(getThoughts);
+// route - /api/thoughts/:thoughtId
+// GET   - Get a thought by its ID
+// PUT   - Update a thought by its ID
+router.route('/:thoughtId').get(getThoughtById);
 
-// /api/students/:studentId
-// router.route('/:studentId').get(getSingleStudent).delete(deleteStudent);
-
-// /api/students/:studentId/assignments
-// router.route('/:studentId/assignments').post(addAssignment);
-
-// /api/students/:studentId/assignments/:assignmentId
-// router.route('/:studentId/assignments/:assignmentId').delete(removeAssignment);
+// route  - /api/thoughts/:thoughtId/reactions
+// POST   - React to the specified thought
+// DELETE - 
 
 module.exports = router;
