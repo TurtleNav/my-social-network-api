@@ -19,7 +19,9 @@ router.route('/').get(getThoughts).post(postThought);
 router.route('/:thoughtId').get(getThoughtById);
 
 // route  - /api/thoughts/:thoughtId/reactions
+// GET    - Get reactions of a particular thought
 // POST   - React to the specified thought
-// DELETE - 
+// DELETE - Delete the particular thought
+router.
 
 module.exports = router;

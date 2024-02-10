@@ -61,7 +61,13 @@ async function updateThought(req, res) {
 //
 // Delete a thought by specifying its id
 async function deleteThought(req, res) {
-  //
+  try {
+    const thought = await Thought.findByIdAndDelete(
+      {_id: req.params.thoughtId}, {new: true}
+    )
+  } catch(err) {
+    res.status(500).json(err);
+  }
 }
 
 // GET /api/thoughts/:thoughtId/reaction
