@@ -22,6 +22,6 @@ router.route('/:thoughtId').get(getThoughtById);
 // GET    - Get reactions of a particular thought
 // POST   - React to the specified thought
 // DELETE - Delete the particular thought
-router.
+router.route('/:thoughtId/reactions').post(ge)
 
 module.exports = router;

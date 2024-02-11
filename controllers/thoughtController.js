@@ -70,6 +70,17 @@ async function deleteThought(req, res) {
   }
 }
 
+async function reactToThought(req, res) {
+  try {
+    const reaction = 
+    const thought = await Thought.findByIdAndUpdate(
+      {_id: req.params.thoughtId},
+      {$push: reactions}
+    )
+  }
+}
+
+
 // GET /api/thoughts/:thoughtId/reaction
 //
 // Get reactions to a thought
