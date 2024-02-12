@@ -18,9 +18,7 @@ async function getUsers(req, res) {
 // Returns a specific user by their ID
 async function getUser(req, res) {
   try {
-    const user = await User.findOne({_id: req.params.id});
-      //.select('-__v')
-      //.lean();
+    const user = await User.findOne({_id: req.params.userId});
     if (!user) {
       return res.status(404).json({message: 'There aren\'t any users with that id'});
     }
@@ -80,101 +78,53 @@ async function deleteUser(req, res) {
   }
 }
 
-// GET /api/users/:id/thoughts
+// POST /api/users/:userId/friends/:friendId
 //
-// Get a particular users' thoughts
-async function getThoughts(req, res) {
-  try {
-    console.log("Getting some user thoughts");
-    const user = await User.findOne(
-      {_id: req.params.id},
-    );
-    if (!user) {
-      res.status(404).json({message: "User with that id doesn't exist"});
-    }
-    res.status(200).json(user.thoughts);
-  } catch(err) {
-    res.status(500).json(err);
-  }
-};
-
-// POST
-async function addThought(req, res) {
-  try {
-    console.log('Adding a thought to the user');
-    console.log(req.body);
-
-    const thought = await Thought.create(req.body);
-
-    const user = await User.findOneAndUpdate(
-      {_id: req.params.id},
-      { $addToSet: {thoughts: [thought]}},
-      {runValidators: true, new: true}
-    );
-
-    if (!user) {
-      return res.status(404).json({message: ''})
-    }
-    return res.status(200).json({message: "Added thought to user"});
-
-  } catch(err) {
-    return res.status(500).json(err);
-  }
-}
-
-async function removeThought(req, res) {
-  /*
-  try {
-    const student = await Student.findOneAndUpdate(
-      { _id: req.params.studentId },
-      { $pull: { assignment: { assignmentId: req.params.assignmentId } } },
-      { runValidators: true, new: true }
-    );
-
-    if (!student) {
-      return res
-        .status(404)
-        .json({ message: 'No student found with that ID :(' });
-    }
-
-    res.json(student);
-  } catch (err) {
-    res.status(500).json(err);
-  }
-  */
-}
-
-async function getFriends(req, res) {
-  try {
-    const user = await User.findOne({_id: req.params.id});
-    res.status(200).json(user.friends);
-  } catch(err) {
-    res.status(500).json(err);
-  }
-}
-
+// Add a friend to the user
 async function addFriend(req, res) {
   try {
-    console.log('Adding a friend to the user');
-    console.log(req.body);
-
-    const friend = await User.findOne({username: req.body.username});
+    const friend = await User.findById(req.params.friendId);
     if (!friend) {
-      return res.status(404).json({message: "No user with that username exists"});
+      return res.status(404).json({message: "No user with that friendId exists"});
     }
     const user = await User.findOneAndUpdate(
-      {_id: req.params.id},
-      { $addToSet: {friends: friend}},
+      {_id: req.params.userId},
+      { $push: {friends: friend}},
       {runValidators: true, new: true}
     );
 
     if (!user) {
-      return res.status(404).json({message: ''})
+      return res.status(404).json({message: "No user with that userId exists"});
     }
     return res.status(200).json({message: "Added friend to user"});
-
   } catch(err) {
     return res.status(500).json(err);
+  }
+}
+// DELETE /api/users/:userId/friends/:friendId
+//
+// Get a user by their userId then delete any friends that have an
+// id matching friendId
+async function deleteFriend(req, res) {
+  try {
+
+    const friend = await User.findById(req.params.friendId);
+    if (!friend) {
+      return res.status(404).json({message: "No user with that friendId exists"});
+    }
+
+    const user = await User.findByIdAndUpdate(
+      {_id: req.params.userId},
+      {$pull: {friends: friend._id}}
+    );
+
+    if (!user) {
+      return res.status(404).json({message: "No user with that userId exists"});
+    }
+
+    res.status(200).json({message: "Successfully deleted the specified friend from the user"});
+  } catch(err) {
+    res.status(500).json(err);
   }
 }
 
@@ -183,8 +133,6 @@ module.exports = {
   getUser,
   createUser,
   deleteUser,
-  addThought,
-  removeThought,
-  getFriends,
-  addFriend
+  addFriend,
+  deleteFriend
 };
