@@ -1,8 +1,11 @@
-const { Schema, model } = require('mongoose');
+const { Schema, Types } = require('mongoose');
 
 const reactionSchema = new Schema({
-	// Default value is set to a new ObjectId (not sure if there's anything todo here)
-	reactionId: [Schema.Types.ObjectId],
+	// Default value is set to a new ObjectId
+	reactionId: {
+		type: Schema.Types.ObjectId, 
+		default: () => new Types.ObjectId()
+	},
 
 	reactionBody: {type: String, required: true, maxLength: 280},
 
