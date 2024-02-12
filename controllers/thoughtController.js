@@ -44,8 +44,6 @@ async function postThought(req, res) {
       {new: true}
     );
 
-    console.log('user -> ', user);
-
     res.status(200).json(thought);
   } catch(err) {
     res.status(500).json(err);
@@ -62,6 +60,9 @@ async function updateThought(req, res) {
       {$set: req.body},
       {new: true}
     );
+    if (!thought) {
+      return res.status(404).json({message: "The thought you wish to delete doesn't exist"})
+    }
     res.status(200).json(thought);
   } catch(err) {
     res.status(500).json(err);
@@ -76,6 +77,9 @@ async function deleteThought(req, res) {
     const thought = await Thought.findByIdAndDelete(
       {_id: req.params.thoughtId}, {new: true}
     )
+    if (!thought) {
+      return res.status(404).json({message: "The thought you wish to react to doesn't exist"})
+    }
     res.status(200).json(thought);
   } catch(err) {
     res.status(500).json(err);
@@ -93,6 +97,9 @@ async function reactToThought(req, res) {
       {$push: {reactions: {username, reactionBody}}},
       {new: true}
     );
+    if (!thought) {
+      return res.status(404).json({message: "The thought you wish to react to doesn't exist"})
+    }
     res.status(200).json(thought);
   } catch(err) {
     res.status(500).json(err);
@@ -110,6 +117,9 @@ async function deleteReaction(req, res) {
       {$pull: {reactions: {reactionId: req.params.reactionId}}},
       {new: true}
     );
+    if (!thought) {
+      return res.status(404).json({message: "The thought you wish to delete your reaction from doesn't exist"})
+    }
     res.status(200).json(thought);
   } catch(err) {
     res.status(500).json(err);

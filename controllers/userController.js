@@ -51,30 +51,13 @@ async function deleteUser(req, res) {
 
     // send a 404 if the user tried to delete a non-existent user id
     if (!user) {
-      res.status(404).json({message: "There isn\'t any user with that id"});
+      return res.status(404).json({message: "There isn\'t any user with that id"});
     }
 
     // Bonus - Delete thoughts associated with a user
-    console.log('user -> ', user);
+    const {deletedCount} = await Thought.deleteMany({username: user.username});
 
-    /*
-      TODO: implement some code below that duplicates the commented out behavior.
-      Must deleted thoughts associated with a user instead
-
-      const course = await Course.findOneAndUpdate(
-        { students: req.params.studentId },
-        { $pull: { students: req.params.studentId } },
-        { new: true }
-      );
-
-      if (!course) {
-        return res.status(404).json({
-          message: 'Student deleted, but no courses found',
-        });
-      }
-
-    */
-    res.status(200).json({message: 'User was successfully deleted'});
+    res.status(200).json({message: `User was successfully deleted. They had ${deletedCount ? `${deletedCount} thoughts that were also deleted` : `no thoughts to delete`} `});
   } catch(err) {
     console.error(err);
     res.status(500).json(err);
