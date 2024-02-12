@@ -36,6 +36,16 @@ async function getThoughtById(req, res) {
 async function postThought(req, res) {
   try {
     const thought = await Thought.create(req.body);
+
+
+    const user = await User.findOneAndUpdate(
+      {username: req.body.username},
+      {$push: {thoughts: thought}},
+      {new: true}
+    );
+
+    console.log('user -> ', user);
+
     res.status(200).json(thought);
   } catch(err) {
     res.status(500).json(err);
@@ -49,7 +59,8 @@ async function updateThought(req, res) {
   try {
     const thought = await Thought.findByIdAndUpdate(
       {_id: req.params.thoughtId},
-      {}
+      {$set: req.body},
+      {new: true}
     );
     res.status(200).json(thought);
   } catch(err) {

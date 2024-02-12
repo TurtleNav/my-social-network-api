@@ -54,6 +54,9 @@ async function deleteUser(req, res) {
       res.status(404).json({message: "There isn\'t any user with that id"});
     }
 
+    // Bonus - Delete thoughts associated with a user
+    console.log('user -> ', user);
+
     /*
       TODO: implement some code below that duplicates the commented out behavior.
       Must deleted thoughts associated with a user instead
