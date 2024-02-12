@@ -44,13 +44,14 @@ async function createUser(req, res) {
   }
 }
 
-// DELETE /api/users/:id
+// DELETE /api/users/:userId
 //
 // Delete a user by their ID
 async function deleteUser(req, res) {
   try {
     const user = await User.findOneAndRemove({_id: req.params.userId});
 
+    // send a 404 if the user tried to delete a non-existent user id
     if (!user) {
       res.status(404).json({message: "There isn\'t any user with that id"});
     }
