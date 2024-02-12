@@ -17,15 +17,18 @@ const {
 // POST  - Create a new thought
 router.route('/').get(getThoughts).post(postThought);
 
-// route - /api/thoughts/:thoughtId
-// GET   - Get a thought by its ID
-// PUT   - Update a thought by its ID
-router.route('/:thoughtId').get(getThoughtById);
+// route  - /api/thoughts/:thoughtId
+// GET    - Get a thought by its ID
+// PUT    - Update a thought by its ID
+// DELETE - Delete a thought by its ID
+router.route('/:thoughtId').get(getThoughtById).put(updateThought).delete(deleteThought);
 
 // route  - /api/thoughts/:thoughtId/reactions
-// GET    - Get reactions of a particular thought
 // POST   - React to the specified thought
-// DELETE - Delete the particular thought
 router.route('/:thoughtId/reactions').post(reactToThought);
+
+// route  - /api/thoughts/:thoughtId/:reactionId
+// DELETE - Delete the particular thought
+router.route('/:thoughtId/:reactionId').delete(deleteReaction);
 
 module.exports = router;
