@@ -8,7 +8,8 @@ const {
   postThought,
   updateThought,
   deleteThought,
-  reactToThought
+  reactToThought,
+  deleteReaction
 } = require('../../controllers/thoughtController');
 
 // route - /api/thoughts

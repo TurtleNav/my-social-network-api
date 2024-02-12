@@ -65,6 +65,7 @@ async function deleteThought(req, res) {
     const thought = await Thought.findByIdAndDelete(
       {_id: req.params.thoughtId}, {new: true}
     )
+    res.status(200).json(thought);
   } catch(err) {
     res.status(500).json(err);
   }
@@ -88,16 +89,20 @@ async function reactToThought(req, res) {
 }
 
 
-// POST /api/thoughts/:thoughtId/reactions
-//
-// Create a reaction to someone's thought (specified by its id)
-async function createReaction(req, res) {
-  //
-}
-
 // DELETE /api/thoughts/:thoughtId/:reactionId
+//
+// remove a reaction from a thought via the thought's reactionId
 async function deleteReaction(req, res) {
-  //
+  try {
+    const thought = await Thought.findByIdAndUpdate(
+      {_id: req.params.thoughtId},
+      {$pull: {reactions: req.params.reactionId}},
+      {new: true}
+    );
+    res.status(200).json(thought);
+  } catch(err) {
+    res.status(500).json(err);
+  }
 }
 
 module.exports = {
@@ -106,5 +111,6 @@ module.exports = {
   postThought,
   updateThought,
   deleteThought,
-  reactToThought
+  reactToThought,
+  deleteReaction
 };
