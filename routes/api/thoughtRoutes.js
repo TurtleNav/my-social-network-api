@@ -5,7 +5,10 @@ const router = require('express').Router();
 const {
   getThoughts,
   getThoughtById,
-  postThought
+  postThought,
+  updateThought,
+  deleteThought,
+  reactToThought
 } = require('../../controllers/thoughtController');
 
 // route - /api/thoughts
@@ -22,6 +25,6 @@ router.route('/:thoughtId').get(getThoughtById);
 // GET    - Get reactions of a particular thought
 // POST   - React to the specified thought
 // DELETE - Delete the particular thought
-router.route('/:thoughtId/reactions').post(ge)
+router.route('/:thoughtId/reactions').post(reactToThought);
 
 module.exports = router;

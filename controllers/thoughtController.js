@@ -70,23 +70,23 @@ async function deleteThought(req, res) {
   }
 }
 
+// POST /api/thoughts/:thoughtId/reactions
+//
+// react to a particular thought
 async function reactToThought(req, res) {
   try {
-    const reaction = 
+    const {username, reactionBody} = req.body;
     const thought = await Thought.findByIdAndUpdate(
       {_id: req.params.thoughtId},
-      {$push: reactions}
-    )
+      {$push: {reactions: {username, reactionBody}}},
+      {new: true}
+    );
+    res.status(200).json(thought);
+  } catch(err) {
+    res.status(500).json(err);
   }
 }
 
-
-// GET /api/thoughts/:thoughtId/reaction
-//
-// Get reactions to a thought
-async function getReactions(req, res) {
-  //
-}
 
 // POST /api/thoughts/:thoughtId/reactions
 //
@@ -104,5 +104,7 @@ module.exports = {
   getThoughts,
   getThoughtById,
   postThought,
-  updateThought
+  updateThought,
+  deleteThought,
+  reactToThought
 };
